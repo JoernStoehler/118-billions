@@ -1,9 +1,12 @@
+@import "tailwindcss";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Custom styles */
 body {
-    @apply bg-gray-100 text-gray-800 font-sans;
+    @apply bg-gray-50 text-gray-900 font-sans;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -11,17 +14,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .obituary-container {
-    @apply max-w-md mx-auto p-4 bg-white rounded-lg shadow-md;
+    @apply max-w-lg mx-auto p-6 bg-white rounded-xl shadow-lg;
 }
 
 .portrait {
-    @apply w-full h-auto rounded-lg;
+    @apply w-full h-auto rounded-xl;
 }
 
 .text-content {
-    @apply mt-4 text-sm leading-relaxed;
+    @apply mt-6 text-base leading-relaxed;
 }
 
 .world-map {
-    @apply mt-4 w-full h-48 bg-gray-200 rounded-lg;
+    @apply mt-6 w-full h-56 bg-gray-300 rounded-xl;
 }
