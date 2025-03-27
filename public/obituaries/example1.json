@@ -1,0 +1,11 @@
+{
+  "name": "John Doe",
+  "birthYear": 1980,
+  "deathYear": 2020,
+  "text": "John Doe was a beloved member of his community, known for his kindness and generosity. He dedicated his life to helping others and left a lasting impact on everyone he met. His passion for life and unwavering spirit will be remembered by all.",
+  "portrait": "example1.png",
+  "mapLocation": {
+    "latitude": 37.7749,
+    "longitude": -122.4194
+  }
+}

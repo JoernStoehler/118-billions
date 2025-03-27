@@ -1,0 +1,11 @@
+{
+  "name": "John Doe",
+  "birthYear": 1975,
+  "deathYear": 2023,
+  "text": "John Doe was a beloved figure in his community, known for his kindness and generosity. He dedicated his life to helping others and was a mentor to many. His legacy will live on through the countless lives he touched.",
+  "portrait": "example2.png",
+  "map": {
+    "latitude": 37.7749,
+    "longitude": -122.4194
+  }
+}

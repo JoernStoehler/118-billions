@@ -1,0 +1,27 @@
+# Node.js dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor settings
+.vscode/
+
+# Environment variables
+.env
+.env.local
+
+# Miscellaneous
+.DS_Store
+*.log
+
+# Tailwind CSS
+*.css.map
+
+# TypeScript
+*.tsbuildinfo
