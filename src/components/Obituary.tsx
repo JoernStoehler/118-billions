@@ -1,20 +1,22 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../features/store'; // Updated import path
+import { useFetchObituaryQuery } from '../features/dataSlice';
 
-interface ObituaryProps {
-    uuid: string;
-}
-
-const Obituary: React.FC<ObituaryProps> = ({ uuid }) => {
-    const obituary = useSelector((state: RootState) => state.obituaries.obituaries[uuid]);
-
-    if (!obituary) {
+const Obituary: React.FC<{uuid: string | null}> = ({uuid}) => {
+    if (!uuid) {
+        return <div>No obituary selected</div>;
+    }
+    const { data: obituary, error, isLoading, isFetching } = useFetchObituaryQuery(uuid);
+    if (error) {
+        return <div>Error loading obituary</div>;
+    }
+    if (isLoading || isFetching) {
         return <div>Loading...</div>;
+    }
+    if (!obituary) {
+        return <div>No obituary found</div>;
     }
 
     const { name, birthYear, deathYear, text, portrait } = obituary;
-
     return (
         <div className="flex flex-col items-center p-4">
             <img src={portrait} alt={`${name}'s portrait`} className="w-32 h-32 rounded-full mb-4" />

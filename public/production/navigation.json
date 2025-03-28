@@ -1,9 +1,5 @@
 {
-  "uuids": [
-    "example1",
-    "example2"
-  ],
-  "navigationOrder": [
+  "order": [
     "example1",
     "example2"
   ]
