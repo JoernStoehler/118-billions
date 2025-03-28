@@ -44,7 +44,7 @@ const store = configureStore({
 });
 
 // Fetch navigation.json and dynamically load obituaries
-fetch('/navigation.json')
+fetch('/production/navigation.json')
   .then((response) => response.json())
   .then((navigation: { uuids: string[], navigationOrder?: string[] }) => {
     // Use navigationOrder if available, otherwise use uuids
@@ -54,7 +54,7 @@ fetch('/navigation.json')
     const preloadObituary = async (uuid: string) => {
       if (!store.getState().obituaries.obituaries[uuid]) {
         try {
-          const response = await fetch(`/obituaries/${uuid}.json`);
+          const response = await fetch(`/production/obituaries/${uuid}.json`);
           if (!response.ok) {
             throw new Error(`Failed to fetch obituary: ${response.status}`);
           }
@@ -68,7 +68,7 @@ fetch('/navigation.json')
             // Ensure portrait path is properly formed
             portrait: obituaryData.portrait.startsWith('/') 
               ? obituaryData.portrait 
-              : `/obituaries/${obituaryData.portrait}`
+              : `/production/obituaries/${obituaryData.portrait}`
           };
           
           store.dispatch(obituarySlice.actions.addObituary(obituary));
