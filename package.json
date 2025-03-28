@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"node backend/server.js\"",
     "build": "vite build",
     "serve": "vite preview"
   },
@@ -23,7 +23,9 @@
     "@vitejs/plugin-react": "^4.3.4",
     "tailwindcss": "^4.0.17",
     "typescript": "^5.8.2",
-    "vite": "^6.2.3"
+    "vite": "^6.2.3",
+    "concurrently": "^8.0.1",
+    "express": "^4.18.2"
   },
   "type": "module"
 }
