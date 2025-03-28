@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Home from './pages/Home';
+import AdminControls from './components/AdminControls';
 
 const App: React.FC = () => {
     const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -25,6 +26,7 @@ const App: React.FC = () => {
             >
                 {isDarkMode ? '🌙' : '🌞'}
             </button>
+            {import.meta.env.VITE_DEV_MODE && <AdminControls />}
             <Home />
         </div>
     );
