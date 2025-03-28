@@ -46,35 +46,61 @@ const store = configureStore({
 // Fetch navigation.json and dynamically load obituaries
 fetch('/navigation.json')
   .then((response) => response.json())
-  .then((navigation: { uuids: string[] }) => {
-    store.dispatch(obituarySlice.actions.setNavigationOrder(navigation.uuids));
-
+  .then((navigation: { uuids: string[], navigationOrder?: string[] }) => {
+    // Use navigationOrder if available, otherwise use uuids
+    const order = navigation.navigationOrder || navigation.uuids;
+    
+    store.dispatch(obituarySlice.actions.setNavigationOrder(order));
     const preloadObituary = async (uuid: string) => {
       if (!store.getState().obituaries.obituaries[uuid]) {
-        const response = await fetch(`/obituaries/${uuid}.json`);
-        const obituary = await response.json();
-        store.dispatch(obituarySlice.actions.addObituary(obituary));
+        try {
+          const response = await fetch(`/obituaries/${uuid}.json`);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch obituary: ${response.status}`);
+          }
+          
+          const obituaryData = await response.json();
+          
+          // Add the UUID to the obituary data since it's not in the JSON file
+          const obituary: Obituary = {
+            ...obituaryData,
+            uuid, // Add UUID from the filename
+            // Ensure portrait path is properly formed
+            portrait: obituaryData.portrait.startsWith('/') 
+              ? obituaryData.portrait 
+              : `/obituaries/${obituaryData.portrait}`
+          };
+          
+          store.dispatch(obituarySlice.actions.addObituary(obituary));
+          console.log(`Loaded obituary: ${uuid}`);
+        } catch (error) {
+          console.error(`Failed to load obituary ${uuid}:`, error);
+        }
       }
     };
-
     const loadInitialObituary = async () => {
-      const initialUuid = navigation.uuids[0];
+      if (order.length === 0) {
+        console.error('No obituaries found in navigation order');
+        return;
+      }
+      
+      const initialUuid = order[0];
       await preloadObituary(initialUuid);
       store.dispatch(obituarySlice.actions.setCurrentObituary(initialUuid));
-
+      console.log(`Set current obituary to: ${initialUuid}`);
+      
       // Preload next and previous obituaries
-      if (navigation.uuids.length > 1) {
-        preloadObituary(navigation.uuids[1]);
+      if (order.length > 1) {
+        preloadObituary(order[1]);
       }
     };
-
+    
     loadInitialObituary();
-
+    
     // Listen for changes in the current obituary to preload next/previous
     store.subscribe(() => {
       const state = store.getState().obituaries;
       const currentIndex = state.navigationOrder.indexOf(state.currentObituaryUuid!);
-
       if (currentIndex > 0) {
         preloadObituary(state.navigationOrder[currentIndex - 1]);
       }
