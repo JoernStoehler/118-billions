@@ -4,27 +4,67 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Add light and dark mode styles */
+:root {
+    --bg-color: #1a1a1a;
+    --text-color: #f1f1f1;
+    --container-bg: #2a2a2a;
+    --container-border: #3a3a3a;
+    --name-color: #e1e1e1;
+}
+
+.light-mode {
+    --bg-color: #f1f1f1;
+    --text-color: #1a1a1a;
+    --container-bg: #ffffff;
+    --container-border: #d1d1d1;
+    --name-color: #1a1a1a;
+}
+
 /* Custom styles */
 body {
-    @apply bg-gray-50 text-gray-900 font-sans;
+    @apply bg-gray-900 text-gray-100 font-sans;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
 h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
+    @apply font-serif text-gray-200;
+}
+
+h1 {
+    color: var(--name-color);
 }
 
 .obituary-container {
-    @apply max-w-lg mx-auto p-6 bg-white rounded-xl shadow-lg;
+    @apply max-w-lg mx-auto p-6 bg-gray-800 rounded-xl shadow-lg border border-gray-700;
+    background-color: var(--container-bg);
+    border-color: var(--container-border);
 }
 
 .portrait {
-    @apply w-full h-auto rounded-xl;
+    @apply w-full h-auto rounded-xl border border-gray-700;
 }
 
 .text-content {
-    @apply mt-6 text-base leading-relaxed;
+    @apply mt-6 text-base leading-relaxed text-gray-300;
 }
 
 .world-map {
-    @apply mt-6 w-full h-56 bg-gray-300 rounded-xl;
+    @apply mt-6 w-full h-56 bg-gray-700 rounded-xl;
+}
+
+/* Style all buttons to be consistent */
+button {
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    border: 1px solid var(--container-border);
+    border-radius: 0.375rem; /* Rounded corners */
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    background-color: var(--container-border);
+    color: var(--bg-color);
 }

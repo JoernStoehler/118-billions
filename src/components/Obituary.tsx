@@ -16,7 +16,7 @@ const Obituary: React.FC<ObituaryProps> = ({ uuid }) => {
     const { name, birthYear, deathYear, text, portrait } = obituary;
 
     return (
-        <div className="flex flex-col items-center p-4 bg-gray-100 text-gray-800">
+        <div className="flex flex-col items-center p-4">
             <img src={portrait} alt={`${name}'s portrait`} className="w-32 h-32 rounded-full mb-4" />
             <h1 className="text-2xl font-bold mb-2">{name}</h1>
             <p className="text-lg mb-2">{birthYear} - {deathYear}</p>

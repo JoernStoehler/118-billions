@@ -32,7 +32,7 @@ const Home: React.FC = () => {
     useSwipe(navigateToPrevious, navigateToNext);
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex flex-col items-center justify-center min-h-screen">
             {currentObituaryUuid && obituaries[currentObituaryUuid] ? (
                 <>
                     <Obituary uuid={currentObituaryUuid} />
