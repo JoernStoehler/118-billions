@@ -1,15 +1,16 @@
 import { ThunkAction, Action } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
-import { dataApi } from './dataSlice';
-import navigationReducer from './navigationSlice';
+import { obituaryApi } from './obituary';
+import { navigationApi, navigationSlice } from './navigation';
 
 const store = configureStore({
   reducer: {
-    [dataApi.reducerPath]: dataApi.reducer,
-    navigation: navigationReducer,
+    [obituaryApi.reducerPath]: obituaryApi.reducer,
+    [navigationApi.reducerPath]: navigationApi.reducer,
+    navigation: navigationSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => 
-    getDefaultMiddleware().concat(dataApi.middleware),
+    getDefaultMiddleware().concat(obituaryApi.middleware, navigationApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

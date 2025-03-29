@@ -1,6 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import Home from './pages/Home';
-import AdminControls from './components/AdminControls';
+import { Navigation, useInitializeNavigation, useNavigateToOffset } from './features/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from './features/store';
+import { useSwipe } from './features/swipe';
+import { Obituary } from './features/obituary';
+import { AdminControls } from './features/admin';
+
+const Home: React.FC = () => {
+    useInitializeNavigation();
+    const currentObituaryUuid = useSelector((state: RootState) => state.navigation.currentUuid);
+    const navigateToOffset = useNavigateToOffset();
+
+    useSwipe(() => navigateToOffset(-1), () => navigateToOffset(+1));
+
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen">
+            <>
+                <Obituary uuid={currentObituaryUuid} />
+                <Navigation />
+            </>
+        </div>
+    );
+};
 
 const App: React.FC = () => {
     const [isDarkMode, setIsDarkMode] = useState(() => {

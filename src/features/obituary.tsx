@@ -1,7 +1,27 @@
 import React from 'react';
-import { useFetchObituaryQuery } from '../features/dataSlice';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const Obituary: React.FC<{uuid: string | null}> = ({uuid}) => {
+export interface Obituary {
+  uuid: string;
+  name: string;
+  birthYear: number;
+  deathYear: number;
+  text: string;
+  portrait: string;
+}
+
+export const obituaryApi = createApi({
+  reducerPath: 'obituaryApi',
+  baseQuery: fetchBaseQuery({ baseUrl: '/production/' }),
+  endpoints: (builder) => ({
+    fetchObituary: builder.query<Obituary, string>({
+      query: (uuid) => `obituaries/${uuid}.json`
+    }),
+  }),
+});
+export const { useFetchObituaryQuery } = obituaryApi;
+
+export const Obituary: React.FC<{uuid: string | null}> = ({uuid}) => {
     if (!uuid) {
         return <div>No obituary selected</div>;
     }
@@ -26,5 +46,3 @@ const Obituary: React.FC<{uuid: string | null}> = ({uuid}) => {
         </div>
     );
 };
-
-export default Obituary;
