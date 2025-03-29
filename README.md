@@ -13,36 +13,39 @@ This project is a single-page application (SPA) built with Vite, TypeScript, Rea
 - Swipe left and right to navigate through obituaries in a random (deterministic) order.
 - Data is sourced from static JSON files and images stored in the `public/obituaries` directory.
 
-## Updated Project Structure
+## Project Structure
 ```
-index.html
-package.json
 README.md
-tailwind.config.js
+package.json
 tsconfig.json
 vite.config.ts
+vite-env.d.ts
+tailwind.config.js
+index.html
+.env
+.env.sample
+.gitignore
 public/
-    navigation.json
-    obituaries/
-        example1.json
-        example1.png
-        example2.json
-        example2.png
+    production/
+        navigation.json
+        obituaries/
+            example1.json
+            example1.png
+            example2.json
+            example2.png
 src/
     App.tsx
     main.tsx
-    components/
-        Navigation.tsx
-        Obituary.tsx
     features/
-        obituarySlice.ts
-        store.ts
-    hooks/
-        useSwipe.ts
-    pages/
-        Home.tsx
+        store.tsx
+        obituary.tsx
+        navigation.tsx
+        swipe.tsx
+        admin.tsx
     styles/
         index.css
+backend/
+    server.js
 ```
 
 ## Setup Instructions
