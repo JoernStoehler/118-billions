@@ -19,13 +19,18 @@ export const obituaryApi = createApi({
     }),
   }),
 });
-export const { useFetchObituaryQuery } = obituaryApi;
+export const { useFetchObituaryQuery, useLazyFetchObituaryQuery } = obituaryApi;
 
 export const Obituary: React.FC<{uuid: string | null}> = ({uuid}) => {
+    const [fetchObituary, { data: obituary, error, isLoading, isFetching }] = useLazyFetchObituaryQuery()
+    React.useEffect(() => {
+        if (uuid) {
+            fetchObituary(uuid);
+        }
+    }, [uuid, fetchObituary]);
     if (!uuid) {
         return <div>No obituary selected</div>;
     }
-    const { data: obituary, error, isLoading, isFetching } = useFetchObituaryQuery(uuid);
     if (error) {
         return <div>Error loading obituary</div>;
     }

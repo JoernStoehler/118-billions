@@ -47,7 +47,7 @@ const App: React.FC = () => {
             >
                 {isDarkMode ? '🌙' : '🌞'}
             </button>
-            {import.meta.env.VITE_DEV_MODE && <AdminControls />}
+            {import.meta.env.VITE_DEV_MODE === 'true' && <AdminControls />}
             <Home />
         </div>
     );
