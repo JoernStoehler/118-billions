@@ -1,5 +1,7 @@
+/// <reference types="vite/client" />
+
 interface ImportMetaEnv {
-  readonly VITE_DEV_MODE: "true" | "false"; 
+  readonly VITE_OBITUARY_FOLDER: 'production' | 'development' | 'discarded';
 }
 
 interface ImportMeta {

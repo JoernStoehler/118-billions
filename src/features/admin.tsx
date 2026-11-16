@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigateToOffset } from './navigation';
+import { useNavigateTo, useNavigateToOffset } from './navigation';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, RootState } from './store';
@@ -14,14 +14,14 @@ export const adminApi = createApi({
       query: ({ uuid, action }) => ({
         url: 'move',
         method: 'POST',
-        body: { uuid, action },
+        body: { uuid, liked: action === 'like' },
       }),
     }),
-    generate: builder.mutation<void, { uuid: string }>({
-      query: ({ uuid }) => ({
+    generate: builder.mutation<{ uuid: string }, { uuid?: string, batch_size?: number }>({
+      query: ({ uuid, batch_size }) => ({
         url: 'generate',
         method: 'POST',
-        body: { uuid },
+        body: { uuid: uuid ?? null, batch_size: batch_size ?? 1 },
       }),
     }),
   }),
@@ -31,6 +31,7 @@ export const { useMoveMutation, useGenerateMutation } = adminApi;
 export const AdminControls: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const currentUuid = useSelector((state: RootState) => state.navigation.currentUuid);
+  const navigateTo = useNavigateTo();
   const navigateToOffset = useNavigateToOffset();
   const [move] = useMoveMutation();
   const [generate] = useGenerateMutation();
@@ -46,10 +47,12 @@ export const AdminControls: React.FC = () => {
     }
   };
 
-  const handleRegenerate = async () => {
-    if (!currentUuid) return;
+  const handleGenerate = (batch_size: number) => async () => {
     try {
-      await generate({ uuid: currentUuid }).unwrap();
+      const response = await generate({ uuid: undefined, batch_size }).unwrap();
+      if (response.uuid) {
+        navigateTo(response.uuid);
+      }
     } catch (error) {
       console.error('Error generating obituary:', error);
     }
@@ -71,9 +74,15 @@ export const AdminControls: React.FC = () => {
       </button>
       <button
         style={{ margin: '5px', padding: '10px', backgroundColor: 'blue', color: 'white' }}
-        onClick={handleRegenerate}
+        onClick={handleGenerate(1)}
       >
-        🔄
+        New
+      </button>
+      <button
+        style={{ margin: '5px', padding: '10px', backgroundColor: 'blue', color: 'white' }}
+        onClick={handleGenerate(5)}
+      >
+        New x5
       </button>
     </div>
   );

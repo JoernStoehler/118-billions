@@ -14,6 +14,7 @@ This project is a single-page application (SPA) built with Vite, TypeScript, Rea
 - Data is sourced from static JSON files and images stored in the `public/obituaries` directory.
 
 ## Project Structure
+
 ```
 README.md
 package.json
@@ -33,6 +34,12 @@ public/
             example1.png
             example2.json
             example2.png
+    development/
+        navigation.json
+        obituaries/
+    discarded/
+        navigation.json
+        obituaries/
 src/
     App.tsx
     main.tsx
@@ -80,3 +87,32 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## License
 
 This project is licensed under the MIT License.
+
+## API Endpoints
+
+### POST /move
+
+Moves obituary files from the `public/development/obituaries` directory to either `public/production/obituaries` or `public/discarded/obituaries` based on user preference. Also updates the `navigation.json` files.
+
+#### Request Body
+- `uuid` (string): The unique identifier of the obituary.
+- `liked` (boolean): Indicates whether the obituary was liked (`true`) or disliked (`false`).
+
+#### Response
+- `200 OK`: Content moved successfully.
+- `400 Bad Request`: Invalid request body.
+- `500 Internal Server Error`: Error occurred while moving content.
+
+### POST /generate
+
+Generates a new obituary and saves it to the `public/development/obituaries` directory. Returns the `uuid` of the generated obituary.
+
+#### Request Body
+- `uuid` (string, optional): The unique identifier for the obituary. If not provided, a new UUID will be generated.
+
+#### Response
+- `200 OK`: Returns the `uuid` of the generated obituary and a success message.
+- `500 Internal Server Error`: Error occurred while generating the obituary.
+
+#### Behavior
+After calling this endpoint, the application will automatically navigate to the generated obituary using the returned `uuid`.

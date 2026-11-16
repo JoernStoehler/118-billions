@@ -13,7 +13,7 @@ interface Navigation {
 
 export const navigationApi = createApi({
   reducerPath: 'navigationApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/production/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `/${import.meta.env.VITE_OBITUARY_FOLDER}/` }),
   endpoints: (builder) => ({
     fetchNavigationOrder: builder.query<Navigation, void>({
       query: () => 'navigation.json'
@@ -57,22 +57,34 @@ export function useInitializeNavigation() {
   }, [navigation, dispatch]);
 }
 
-export function useNavigateToOffset() {
+export function useNavigateTo() {
   const dispatch = useDispatch();
-  const currentUuid = useSelector((state: RootState) => state.navigation.currentUuid);
   const { data: navigation } = useFetchNavigationOrderQuery();
   const order = navigation?.order ?? [];
   const prefetchObituary = obituaryApi.usePrefetch("fetchObituary");
   const prefetchOffsets = [-1, +1];
+  return (uuid: string) => {
+    dispatch(setCurrentUuid(uuid));
+
+    prefetchOffsets
+      .map((offset) => rotate<string>(offset, uuid, order))
+      .filter((uuid => uuid !== null))
+      .forEach((uuid) => prefetchObituary(uuid));
+  }
+}
+
+export function useNavigateToOffset() {
+  const navigateTo = useNavigateTo();
+
+  const currentUuid = useSelector((state: RootState) => state.navigation.currentUuid);
+  const { data: navigation } = useFetchNavigationOrderQuery();
+  const order = navigation?.order ?? [];
   
   return (offset: number) => {
     const newUuid = rotate<string>(offset, currentUuid, order);  
-    dispatch(setCurrentUuid(newUuid));
-
-    prefetchOffsets
-      .map((offset) => rotate<string>(offset, newUuid, order))
-      .filter((uuid => uuid !== null))
-      .forEach((uuid) => prefetchObituary(uuid));
+    if (newUuid) {
+      navigateTo(newUuid);
+    }
   };
 }
 

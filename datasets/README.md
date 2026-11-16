@@ -1,0 +1,3 @@
+- WPP2024_Demographic_Indicators_Medium.csv
+  - https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=CSV%20format
+    - "Demographic Indicators	> 1950-2100, medium (gz)"

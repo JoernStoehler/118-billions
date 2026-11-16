@@ -25,3 +25,25 @@ yarn-error.log*
 
 # TypeScript
 *.tsbuildinfo
+
+# development data
+public/development/*
+!public/development/obituaries
+public/development/obituaries/*
+!public/development/obituaries/.gitkeep
+
+# discarded data
+public/discarded/*
+!public/discarded/obituaries
+public/discarded/obituaries/*
+!public/discarded/obituaries/.gitkeep
+
+# production data
+!public/production/*
+!public/production/obituaries
+!public/production/obituaries/*
+!public/production/obituaries/.gitkeep
+
+# Local generated/private artifacts retained during historical consolidation.
+/public/production/navigation.json
+/public/production/obituaries/
